@@ -1,0 +1,11 @@
+[workspace]
+
+members = [
+    "services/users_service",
+    "services/users_service/migration",
+    "services/users_service/entities",
+
+    "civilization",
+    "civilization/macros/response_with_custom_code_derive",
+    "civilization/bern"
+]
