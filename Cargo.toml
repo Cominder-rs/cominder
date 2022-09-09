@@ -7,4 +7,6 @@ members = [
 
     "civilization",
     "civilization/bern",
+
+    "civilization/beijing",
 ]
