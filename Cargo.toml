@@ -9,4 +9,6 @@ members = [
     "civilization/bern",
 
     "civilization/beijing",
+
+    "services/frontend"
 ]
