@@ -6,9 +6,11 @@ members = [
     "services/users_service/entities",
 
     "civilization",
+
     "civilization/bern",
 
     "civilization/beijing",
 
-    "services/frontend"
+    "services/frontend",
+
 ]
