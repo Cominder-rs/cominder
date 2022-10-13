@@ -5,10 +5,10 @@ members = [
     "services/users_service/migration",
     "services/users_service/entities",
 
-    "civilization",
-
-    "civilization/bern",
-
+#    "civilization",
+#
+#    "civilization/bern",
+#
     "civilization/beijing",
 
     "services/frontend",
