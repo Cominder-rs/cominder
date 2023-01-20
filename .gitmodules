@@ -1,3 +1,9 @@
 [submodule "services/users_service"]
 	path = services/users_service
 	url = git@github.com:Cominder-rs/users_service.git
+[submodule "services/frontend"]
+	path = services/frontend
+	url = git@github.com:Cominder-rs/frontend.git
+[submodule "civilization"]
+	path = civilization
+	url = git@github.com:Cominder-rs/civilization.git
