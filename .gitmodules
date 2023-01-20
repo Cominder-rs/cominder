@@ -1,0 +1,3 @@
+[submodule "services/users_service"]
+	path = services/users_service
+	url = git@github.com:Cominder-rs/users_service.git
