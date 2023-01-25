@@ -10,7 +10,7 @@ members = [
 #    "civilization/bern",
 #
     "civilization/beijing",
-
+    "civilization/moscow",
     "services/frontend",
 
 ]
