@@ -1,16 +1,22 @@
 [workspace]
 
 members = [
-    "services/users_service",
-    "services/users_service/migration",
-    "services/users_service/entities",
+    "services/users",
+    "services/users/migration",
+    "services/users/entities",
+    "services/posts",
+    "services/test_leptos",
 
-#    "civilization",
+    "civilization",
+    "civilization/scopes_macro",
 #
 #    "civilization/bern",
 #
     "civilization/beijing",
+
     "civilization/moscow",
+    "civilization/moscow/migrations",
+
     "services/frontend",
 
 ]
