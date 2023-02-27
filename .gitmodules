@@ -4,3 +4,6 @@
 [submodule "civilization"]
 	path = civilization
 	url = git@github.com:Cominder-rs/civilization.git
+[submodule "services/users"]
+	path = services/users
+	url = git@github.com:Cominder-rs/users.git

@@ -4,14 +4,10 @@ members = [
     "services/users",
     "services/users/migration",
     "services/users/entities",
-    "services/posts",
-    "services/test_leptos",
 
     "civilization",
     "civilization/scopes_macro",
-#
-#    "civilization/bern",
-#
+
     "civilization/beijing",
 
     "civilization/moscow",
