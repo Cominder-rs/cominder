@@ -1,0 +1,46 @@
+FROM cirrusci/wget:latest as trunk-build
+
+
+RUN wget https://github.com/thedodd/trunk/releases/download/v0.16.0/trunk-x86_64-unknown-linux-gnu.tar.gz && \
+    tar -xf trunk-x86_64-unknown-linux-gnu.tar.gz && \
+    mv trunk /usr/bin && \
+    chmod +x /usr/bin/trunk 
+
+# FROM cirrusci/wget:latest as cargo-watch-build
+
+
+# RUN wget https://github.com/watchexec/cargo-watch/releases/download/v8.4.0/cargo-watch-v8.4.0-x86_64-unknown-linux-gnu.tar.xz && \
+#     tar -xf cargo-watch-v8.4.0-x86_64-unknown-linux-gnu.tar.xz && \
+#     mv cargo-watch-v8.4.0-x86_64-unknown-linux-gnu/cargo-watch /usr/bin/cargo-watch && \
+#     chmod +x /usr/bin/cargo-watch
+
+FROM cirrusci/wget:latest as sccache-build
+
+RUN wget https://github.com/mozilla/sccache/releases/download/v0.4.2/sccache-v0.4.2-x86_64-unknown-linux-musl.tar.gz && \
+    tar -xf sccache-v0.4.2-x86_64-unknown-linux-musl.tar.gz && \
+    mv sccache-v0.4.2-x86_64-unknown-linux-musl/sccache /usr/bin && \
+    chmod +x /usr/bin/sccache && \
+    sccache --version
+    
+FROM rustlang/rust:nightly
+
+COPY --from=trunk-build /usr/bin/trunk /usr/bin
+ # COPY --from=cargo-watch-build /usr/bin/
+COPY --from=sccache-build /usr/bin/sccache /usr/bin
+
+RUN trunk --version
+
+ARG project_dir=/cominder
+ARG building_dir=$project_dir/.cargo
+
+WORKDIR $project_dir
+
+ENV SCCACHE_DIR=$building_dir/sccache \
+    RUSTC_WRAPPER=/usr/bin/sccache \
+    CARGO_TARGET_DIR=$building_dir/bin \
+    CARGO_HOME=$building_dir \
+    PATH=$building_dir/bin:$PATH
+
+
+CMD rustup target add wasm32-unknown-unknown && \
+    trunk watch -d ./services/frontend/dist ./services/frontend/index.html

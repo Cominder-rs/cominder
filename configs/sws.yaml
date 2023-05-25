@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sws
+  labels:
+    app: sws
+  namespace: civilization
+  annotations:
+    mode: dev
+spec:
+  selector:
+    matchLabels:
+      app: sws
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: sws
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-cred
+      containers:
+      - name: sws
+        imagePullPolicy: Always
+        image: docker.io/vaider/civilization:sws
+        # command: ["sws"]
+        # args: ["-w /sws/sws.toml"]
+        ports:
+        - containerPort: 80
+          name: port-80
+        volumeMounts:
+          - mountPath: /sws
+            name: sws-volume
+          - mountPath: /dist
+            name: dist-volume
+        env:
+          - name: SERVER_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+      volumes:
+        - name: sws-volume
+          hostPath: 
+            path: $HOME/cominder/configs/sws
+        - name: dist-volume
+          hostPath:
+            path: $HOME/cominder/services/frontend/dist
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sws-service
+  namespace: civilization
+spec:
+  selector: 
+    app: sws
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sws-ingress
+  namespace: civilization
+  annotations:
+    kubernetes.io/ingress.class: haproxy
+spec:
+  rules:
+  - host: www.constellation-project.ru
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sws-service
+            port:
+              number: 80
+  - host: constellation-project.ru
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sws-service
+            port:
+              number: 80

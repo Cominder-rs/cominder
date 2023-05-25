@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+  namespace: civilization
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: dockerhub-cred
+      containers:
+        - image: docker.io/vaider/civilization:building-front
+          name: frontend
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+            name: port-80
+          volumeMounts:
+            - mountPath: /cominder
+              name: project-volume
+          env:
+            - name: APP_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          # lifecycle:
+          #   preStop:
+          #     exec:
+          #       command: ["/bin/sh", "-c", "pkill --signal SIGTERM frontend"]      
+      volumes:
+        - name: project-volume
+          hostPath:
+            path: $HOME/cominder

@@ -1,0 +1,5 @@
+FROM joseluisq/static-web-server:latest as sws-build
+
+FROM ubuntu:latest
+
+COPY --from=sws-build /usr/bin/sws /usr/bin

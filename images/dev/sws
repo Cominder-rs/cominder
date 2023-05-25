@@ -1,0 +1,12 @@
+FROM cirrusci/wget:latest as sws-build
+
+RUN wget https://github.com/static-web-server/static-web-server/releases/download/v2.16.0/static-web-server-v2.16.0-x86_64-unknown-linux-gnu.tar.gz && \
+    tar -xf static-web-server-v2.16.0-x86_64-unknown-linux-gnu.tar.gz && \
+    mv static-web-server-v2.16.0-x86_64-unknown-linux-gnu/static-web-server /usr/bin/sws && \
+    chmod +x /usr/bin/sws 
+
+FROM ubuntu:latest
+
+COPY --from=sws-build /usr/bin/sws /usr/bin
+
+CMD sws -w /sws/sws.toml

@@ -7,3 +7,6 @@
 [submodule "services/users"]
 	path = services/users
 	url = git@github.com:Cominder-rs/users.git
+[submodule "third-party/tonic-web-wasm-client"]
+	path = third-party/tonic-web-wasm-client
+	url = git@github.com:Cominder-rs/tonic-web-wasm-client.git

@@ -24,6 +24,7 @@ resolver = "2"
 
 [workspace.dependencies]
 tokio = {version = "1.27", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["full"] }
 tower-http = { version = "0.4", features = ["trace", "cors"] }
 http = "0.2"
 tracing = "0.1"
@@ -44,7 +45,9 @@ lazy_static = "1.4"
 hyper = "0.14"
 futures = "0.3"
 tower = "0.4"
+protobuf-src = "1.1"
+cfg-if = "1"
 
 [profile.release]
 lto = true
-opt-level = "s"
+opt-level = 3

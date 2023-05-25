@@ -1,0 +1,35 @@
+FROM cirrusci/wget:latest as cargo_watch_build
+
+RUN wget https://github.com/watchexec/cargo-watch/releases/download/v8.4.0/cargo-watch-v8.4.0-x86_64-unknown-linux-gnu.tar.xz && \
+    tar -xf cargo-watch-v8.4.0-x86_64-unknown-linux-gnu.tar.xz && \
+    mv cargo-watch-v8.4.0-x86_64-unknown-linux-gnu/cargo-watch /usr/bin/cargo-watch && \
+    chmod +x /usr/bin/cargo-watch
+
+FROM cirrusci/wget:latest as sccache_build
+
+RUN wget https://github.com/mozilla/sccache/releases/download/v0.4.2/sccache-v0.4.2-x86_64-unknown-linux-musl.tar.gz && \
+    tar -xf sccache-v0.4.2-x86_64-unknown-linux-musl.tar.gz && \
+    mv sccache-v0.4.2-x86_64-unknown-linux-musl/sccache /usr/bin && \
+    chmod +x /usr/bin/sccache && \
+    sccache --version
+
+
+FROM rustlang/rust:nightly
+
+USER root
+
+ARG project_dir=/cominder
+ARG building_dir=$project_dir/.cargo
+
+WORKDIR $project_dir
+
+COPY --from=sccache_build /usr/bin/sccache /usr/bin
+COPY --from=cargo_watch_build /usr/bin/cargo-watch /usr/bin
+
+ENV SCCACHE_DIR=$building_dir/sccache \
+    RUSTC_WRAPPER=/usr/bin/sccache \
+    CARGO_TARGET_DIR=$building_dir/bin \
+    CARGO_HOME=$building_dir \
+    PATH=$building_dir/bin:$PATH
+
+CMD cargo build -p users && cargo watch -w services/users -x "run -p users"
