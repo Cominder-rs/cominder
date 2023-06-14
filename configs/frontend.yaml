@@ -19,9 +19,11 @@ spec:
       imagePullSecrets:
         - name: dockerhub-cred
       containers:
-        - image: docker.io/vaider/civilization:building-front
+        - image: docker.io/vaider/civilization:frontend
           name: frontend
           imagePullPolicy: Always
+          # command: ["trunk"]
+          # args: ["watch", "--features", "dev", "-d", "./services/frontend/dist", "./services/frontend/index.html"]
           ports:
           - containerPort: 80
             name: port-80
@@ -29,6 +31,14 @@ spec:
             - mountPath: /cominder
               name: project-volume
           env:
+            # - name: RUSTFLAGS
+            #   value: "--cfg=web_sys_unstable_apis --cfg=dev"
+            - name: TRUNK_BUILD_FILEHASH
+              value: "false"
+            - name: ENV
+              value: dev
+            - name: CARGO_TERM_COLOR
+              value: always
             - name: APP_NAME
               valueFrom:
                 fieldRef:

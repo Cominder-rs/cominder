@@ -68,14 +68,3 @@ compression-static = false
 #### Ignore hidden files/directories (dotfiles)
 ignore-hidden-files = false
 
-
-### Windows Only
-
-#### Windows Service support.
-#### NOTE: this doesn't create a Windows Service per se,
-#### instead, it just tells SWS to run in a Windows Service context,
-#### so it's necessary to install the SWS Windows Service first
-#### using the `static-web-server.exe -w config.toml install` command.
-#### More details on https://static-web-server.net/features/windows-service/
-# windows-service = false
-

@@ -88,3 +88,8 @@ spec:
             name: sws-service
             port:
               number: 80
+  tls:
+  - secretName: constellation-cert
+    hosts:
+    - www.constellation-project.ru
+    - constellation-project.ru

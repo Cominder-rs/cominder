@@ -33,6 +33,10 @@ spec:
             - mountPath: /cominder
               name: project-volume
           env:
+            - name: ENV
+              value: dev
+            - name: CARGO_TERM_COLOR
+              value: always
             - name: APP_NAME
               valueFrom:
                 fieldRef:
@@ -72,13 +76,18 @@ metadata:
     kubernetes.io/ingress.class: haproxy
 spec:
   rules:
-  - host: $app_name.constellation-project.ru
+  - host: constellation-project.ru
     http:
       paths:
-      - path: /
+      - path: /api/$app_name
         pathType: Prefix
         backend:
           service:
             name: $app_name-service
             port:
               number: 80
+
+  tls:
+  - secretName: constellation-cert
+    hosts:
+    - constellation-project.ru

@@ -10,5 +10,11 @@ sudo chown $'(id -u):(id -g)' $'($env.HOME)/.kube/config'
 
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 cilium install
-kubectl apply -f ../configs/namespace.yaml
+# kubectl apply -f ../configs/namespace.yaml
+kubectl create ns civilization
+kubectl create ns monitoring 
+./certs-secret.nu
 ./dockerhub-cred.nu
+
+kubectl create ns ingress-controller 
+helm install haproxy-ingress haproxy-ingress/haproxy-ingress --namespace ingress-controller --version 0.14.2 --set controller.service.type=NodePort

@@ -6,14 +6,6 @@ RUN wget https://github.com/thedodd/trunk/releases/download/v0.16.0/trunk-x86_64
     mv trunk /usr/bin && \
     chmod +x /usr/bin/trunk 
 
-# FROM cirrusci/wget:latest as cargo-watch-build
-
-
-# RUN wget https://github.com/watchexec/cargo-watch/releases/download/v8.4.0/cargo-watch-v8.4.0-x86_64-unknown-linux-gnu.tar.xz && \
-#     tar -xf cargo-watch-v8.4.0-x86_64-unknown-linux-gnu.tar.xz && \
-#     mv cargo-watch-v8.4.0-x86_64-unknown-linux-gnu/cargo-watch /usr/bin/cargo-watch && \
-#     chmod +x /usr/bin/cargo-watch
-
 FROM cirrusci/wget:latest as sccache-build
 
 RUN wget https://github.com/mozilla/sccache/releases/download/v0.4.2/sccache-v0.4.2-x86_64-unknown-linux-musl.tar.gz && \
@@ -30,8 +22,8 @@ COPY --from=sccache-build /usr/bin/sccache /usr/bin
 
 RUN trunk --version
 
-ARG project_dir=/cominder
-ARG building_dir=$project_dir/.cargo
+ENV project_dir=/cominder
+ENV building_dir=$project_dir/.cargo
 
 WORKDIR $project_dir
 
@@ -41,6 +33,6 @@ ENV SCCACHE_DIR=$building_dir/sccache \
     CARGO_HOME=$building_dir \
     PATH=$building_dir/bin:$PATH
 
+RUN --mount=type=cache,target=$building_dir rustup target add wasm32-unknown-unknown
 
-CMD rustup target add wasm32-unknown-unknown && \
-    trunk watch -d ./services/frontend/dist ./services/frontend/index.html
+CMD trunk watch --features dev -d ./services/frontend/dist ./services/frontend/index.html
