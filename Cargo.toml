@@ -6,6 +6,17 @@ members = [
     "services/users/migrations",
     "services/users/entities",
     "services/users/proto", 
+
+    "services/messages",
+    "services/messages/proto",
+    
+    "services/users_dummy",
+    "services/users_dummy/proto",
+    
+    "services/posts",
+    "services/posts/proto",
+    "services/posts/errors",
+    "services/posts/migrations",
     
     "civilization",
     "civilization/scopes_macro",
@@ -40,7 +51,7 @@ validator = { version = "0.16", features = ["phone", "derive"]}
 rand = "0.8"
 time = { version = "0.3", features = ["serde-well-known", "wasm-bindgen"] }
 uuid = { version = "1.1", features = ["v4", "fast-rng"] }
-tonic = "0.9"
+tonic = { version = "0.9", features = ["gzip"] }
 prost = "0.11"
 tonic-build = "0.9"
 tonic-web = "0.9"
@@ -58,6 +69,15 @@ users_entities = { path = "services/users/entities" }
 users_errors = { path = "services/users/errors" }
 users_proto = { path = "services/users/proto"}
 jwt = { path = "civilization/jwt" }
+messages_proto = { path = "services/messages/proto" }
+
+users_dummy_proto = { path = "services/users_dummy/proto" }
+users_dummy_errors = { path = "services/users_dummy/errors" }
+
+posts_proto = { path = "services/posts/proto" }
+posts_errors = { path = "services/posts/errors" }
+posts_entities = { path = "services/posts/entities" }
+
 #front-deps
 wasm-bindgen-futures = "0.4"
 serde-wasm-bindgen = { version = "0.4" }

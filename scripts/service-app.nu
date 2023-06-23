@@ -7,4 +7,9 @@ try {
   exit 1
 }
 
+
 cat ../configs/service-app.yaml | envsubst | kubectl apply -f -
+
+if not ($env.app_name | str ends-with '-dummy') {
+  cat ../configs/ingress.yaml | envsubst | kubectl apply -f -
+}

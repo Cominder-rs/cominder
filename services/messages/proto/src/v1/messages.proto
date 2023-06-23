@@ -1,0 +1,21 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package messages;
+
+service MessagesV1 {
+  rpc Subscribe (google.protobuf.Empty) returns (stream MsgStream) {}
+  rpc SendMsg (Msg) returns (google.protobuf.Empty) {}
+}
+
+message Msg {
+  int64 reciever_id = 1;
+  string content = 2;
+}
+
+message MsgStream {
+  int64 receiver_id = 1;
+  string content = 2;
+  string sender_firstname = 3;
+  string sender_lastname = 4;
+  int64 unix_timestamp = 5;
+}

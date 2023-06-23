@@ -1,0 +1,25 @@
+[package]
+name = "messages_proto"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[target.wasm32-unknown-unknown.dependencies]
+tonic = { version = "0.9", default-features = false, features = ["codegen", "prost"] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tonic = { workspace = true }
+
+[dependencies]
+prost = { workspace = true }
+leptos = { workspace = true }
+
+[build-dependencies]
+tonic-build = { workspace = true }
+protobuf-src = { workspace = true }
+cfg-if = { workspace = true }
+
+[features]
+client = []
+server = []

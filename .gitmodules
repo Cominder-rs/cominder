@@ -10,3 +10,9 @@
 [submodule "third-party/tonic-web-wasm-client"]
 	path = third-party/tonic-web-wasm-client
 	url = git@github.com:Cominder-rs/tonic-web-wasm-client.git
+[submodule "services/posts"]
+	path = services/posts
+	url = git@github.com:Cominder-rs/posts.git
+[submodule "services/users_dummy"]
+	path = services/users_dummy
+	url = git@github.com:Cominder-rs/users_dummy.git

@@ -32,7 +32,5 @@ ENV SCCACHE_DIR=$building_dir/sccache \
     CARGO_HOME=$building_dir \
     PATH=$building_dir/bin:$PATH
 
-CMD cargo watch -w services/users -x "run -p users"
-
-
+CMD cargo watch -w services/users_dummy -x "run -p users_dummy"
 
